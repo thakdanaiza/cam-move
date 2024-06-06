@@ -19,16 +19,10 @@ unsigned long timerDelay = 5000;
 unsigned long timernet = 30000;
 unsigned long timeOut = 120000;
 
-String sensorReadings;
-float sensorReadingsArr[3];
+String commandReadings;
 
-String nodeName = "Master1";  // Name needs to be unique
-
-int i = 0;
-int count = 0;
 int net = 0;
 int wf = 0;
-int sumSend = 0;
 
 void feedback() {
   WiFiClient client;
@@ -45,7 +39,7 @@ void feedback() {
   http.end();
 }
 void move() {
-  Serial.println("mode 1 step");
+  Serial.println("move 1 step");
 }
 void go_home() {
   Serial.println("go_home");
@@ -77,18 +71,18 @@ void loop() {
     //Check WiFi connection status
     if (WiFi.status() == WL_CONNECTED) {
       net = 1;
-      sensorReadings = httpGETRequest(serverNameGet);
-      // Serial.println(sensorReadings);
-      if (sensorReadings.equals("move")) {
+      commandReadings = httpGETRequest(serverNameGet);
+      // Serial.println(commandReadings);
+      if (commandReadings.equals("move")) {
         move();
         feedback();
-      } else if (sensorReadings.equals("max")) {
+      } else if (commandReadings.equals("max")) {
         go_max();
         feedback();
-      } else if (sensorReadings.equals("min")) {
+      } else if (commandReadings.equals("min")) {
         go_min();
         feedback();
-      } else if (sensorReadings.equals("home")) {
+      } else if (commandReadings.equals("home")) {
         go_home();
         feedback();
       }
