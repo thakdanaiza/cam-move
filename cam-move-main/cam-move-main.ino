@@ -4,6 +4,9 @@
 const char* ssid = "rainawifi_2.4G";
 const char* password = "map38bok";
 
+// const char* ssid = "RAZERBLADE";
+// const char* password = "091707fifa";
+
 //Your Domain name with URL path or IP address with path
 const char* serverNameGet = "http://10.22.1.81:1880/get-move";
 const char* serverNameSent = "http://10.22.1.81:1880/update-move";
@@ -32,13 +35,13 @@ void feedback() {
   HTTPClient http;
   http.begin(client, serverNameSent);
   http.addHeader("Content-Type", "application/json");
-  String testString;
-  testString = "done";
+  // String testString;
+  String testString = "{\"message\":\"done\"}";
   int httpResponseCode = http.POST(testString);
-  Serial.print("msg = ");
-  Serial.println(testString);
-  Serial.print("HTTP Response code posting: ");
-  Serial.println(httpResponseCode);
+  // Serial.print("msg = ");
+  // Serial.println(testString);
+  // Serial.print("HTTP Response code posting: ");
+  // Serial.println(httpResponseCode);
   http.end();
 }
 void move() {
@@ -56,6 +59,7 @@ void go_min() {
 }
 void setup() {
   Serial.begin(115200);
+  Serial.print("setup-done");
 }
 
 void loop() {
@@ -66,6 +70,7 @@ void loop() {
       delay(10);
     }
     wf = 1;
+    Serial.print("wifi-setup-done");
   }
   // Send an HTTP GET request every 5 seconds
   if ((millis() - lastTime) > timerDelay && wf == 1) {
@@ -119,8 +124,8 @@ String httpGETRequest(const char* serverNameGet) {
   String payload = "";
 
   if (httpResponseCode > 0) {
-    Serial.print("HTTP Response code getting: ");
-    Serial.println(httpResponseCode);
+    // Serial.print("HTTP Response code getting: ");
+    // Serial.println(httpResponseCode);
     payload = http.getString();
   } else {
     Serial.print("Error code getting: ");
